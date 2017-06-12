@@ -37,24 +37,24 @@ void fasthash(const char **wordlist, const int num_words) {
 
         if ((e = ht_find(t, hashv, wordlen)) == NULL) {
             e = &buffer[distinct++];
-            e->count = 1;
+            e->value = 1;
             e->hashv = hashv;
             e->key = wordlist[i];
             e->keylen = wordlen;
 
             ht_add(t, e);
         } else {
-            ++e->count;
+            ++e->value;
         }
     }
 
     for (size_t i = 0; i < distinct; ++i) {
         e = &buffer[i];
-        printf("%s: %zu\n", e->key, e->count);
+        printf("%s: %zu\n", e->key, e->value);
     }
 
-    free(buffer);
     ht_destroy(t);
+    free(buffer);
 }
 
 int main(int argc, char** argv) {

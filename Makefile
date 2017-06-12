@@ -1,4 +1,4 @@
 all:
-	gcc -O3 -o bin/benchmark benchmark.c
+	gcc -std=c99 -O3 -o bin/benchmark benchmark.c
 clean:
 	rm -f bin/*
