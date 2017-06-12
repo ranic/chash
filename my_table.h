@@ -16,6 +16,7 @@ struct my_entry {
     uint64_t hashv;
     size_t count;
     size_t probe_dist;
+    size_t keylen;
 };
 
 struct my_table {
@@ -27,9 +28,9 @@ struct my_table {
     size_t size_limit;
 };
 
-static my_table* ht_create(size_t num_buckets_log2);
+static struct my_table* ht_create(size_t num_buckets_log2);
 static void ht_add(struct my_table *t, struct my_entry *e);
-static struct my_entry* ht_find(struct my_table *t, uint64_t hashv);
+static struct my_entry* ht_find(struct my_table *t, uint64_t hashv, size_t keylen);
 void ht_destroy(struct my_table *t);
 
 static inline size_t ht_get_index(struct my_table *t, uint64_t hashv) {
@@ -109,7 +110,7 @@ static void ht_add(struct my_table *t, struct my_entry *e) {
     ht_grow(t, e);
 }
 
-static struct my_entry* ht_find(struct my_table *t, uint64_t hashv) {
+static struct my_entry* ht_find(struct my_table *t, uint64_t hashv, size_t keylen) {
     size_t mask = t->num_buckets - 1;
     size_t idx = ht_get_index(t, hashv);
     struct my_entry* cur;
